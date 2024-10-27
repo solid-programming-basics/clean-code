@@ -1,34 +1,23 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
+import java.text.MessageFormat;
+
 public class SolidPointsApplication {
+
     public static void main(String[] args) {
-        SolidPoints alice = new SolidPoints("Alice");
-        CodeReviewer bob = new CodeReviewer("Bob");
-        PointsViewer charlie = new PointsViewer("Charlie");
+        SolidPoints alicePoints = new SolidPoints(new User("Alice"));
+        CodeReviewer bob = new CodeReviewer(new User("Bob"));
+        PointsViewer charlie = new PointsViewer(new User("Charlie"));
 
-        // Adding points directly for Alice
         try {
-            alice.earnPoints(10);
-            System.out.println("Alice's points: " + alice.getSolidPoints());
-            alice.earnPoints(20);
-            System.out.println("Alice's points: " + alice.getSolidPoints());
+            alicePoints.earnPoints(10);
+            alicePoints.earnPoints(20);
 
-            // Reviewer Bob reviews code and adds points for Alice
-            bob.reviewCode(alice, "excellent"); // Excellent code reviewed
-            System.out.println("Alice's points after review: " + alice.getSolidPoints());
-
-            // Viewer Charlie views Alice's points
-            charlie.viewPoints(alice);
-
-            // Subtract points for bad review
-            bob.reviewCode(alice, "bad"); // Bad code reviewed
-            System.out.println("Alice's points after bad review: " + alice.getSolidPoints());
-
+            bob.reviewCode("excellent", alicePoints);
+            charlie.viewPoints(alicePoints);
+            bob.reviewCode("bad", alicePoints);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (UnsupportedOperationException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println(MessageFormat.format("Error: {0}", e.getMessage()));
         }
     }
 }
-

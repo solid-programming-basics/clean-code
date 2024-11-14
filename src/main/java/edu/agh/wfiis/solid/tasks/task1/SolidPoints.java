@@ -1,28 +1,33 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
-public class SolidPoints extends User {
+final class SolidPoints {
+    private static final int MAX_POINTS_PER_ACTION = 100;
+    private final Identifiable owner;
+    private int points;
 
-    public SolidPoints(String name) {
-        super(name);
-    }
-
-    public int getSolidPoints() {
-        return solidPoints; // Accessor for solidPoints
+    public SolidPoints(Identifiable owner) {
+        this.owner = owner;
     }
 
     public void earnPoints(int points) {
-        if (points > 0 && points < 100) {
-            super.earnPoints(points);
-        } else {
-            throw new IllegalArgumentException("Points must be positive and no more than 100.");
+        if (points <= 0 || points > MAX_POINTS_PER_ACTION) {
+            throw new IllegalArgumentException("Points must be positive and no more than " + MAX_POINTS_PER_ACTION + ".");
         }
+        this.points += points;
     }
 
     public void subtractPoints(int points) {
-        if (points > 0 && points <= this.solidPoints) {
-            super.subtractPoints(points);
-        } else {
-            throw new IllegalArgumentException("Points must be positive.");
+        if (points <= 0 || this.points - points < 0) {
+            throw new IllegalArgumentException("Points must be positive and cannot result in negative solid points.");
         }
+        this.points -= points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public String getOwnerIdentity(){
+        return owner.identify();
     }
 }

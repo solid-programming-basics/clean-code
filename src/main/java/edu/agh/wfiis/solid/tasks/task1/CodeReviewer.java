@@ -7,11 +7,12 @@ public class CodeReviewer extends SolidPoints {
 
     @Override
     public void earnPoints(int points) {
-        // This operation is not supported for CodeReviewer
         throw new UnsupportedOperationException("Earning points is not supported for CodeReviewers.");
     }
 
     public void reviewCode(User user, String codeQuality) {
+        // wszystkie usunięte komentarze do tej pory były po prostu niepotrzebne, natomiast tutaj są po prostu mylące, co to znaczy "Attempting"?
+        // przecież to się zawsze uda, bo nie ma żadnego checka czemu by się miało nie udać, bo Java nie próbuje nawet robić implicit setterów
         if (codeQuality.equals("good")) {
             // Attempting to earn ten points for the user
             user.solidPoints = user.solidPoints + 10; // Ten points are awarded to the user

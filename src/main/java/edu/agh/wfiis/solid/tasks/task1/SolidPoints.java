@@ -7,7 +7,7 @@ public class SolidPoints extends User {
     }
 
     public int getSolidPoints() {
-        return solidPoints; // Accessor for solidPoints
+        return solidPoints;
     }
 
     public void earnPoints(int points) {

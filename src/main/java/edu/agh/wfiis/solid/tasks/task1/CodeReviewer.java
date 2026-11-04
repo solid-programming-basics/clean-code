@@ -1,19 +1,27 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
 public class CodeReviewer {
-    public void reviewCode(User user, String codeQuality) throws IllegalArgumentException {
+    public void reviewCode(User user, CodeQuality codeQuality) throws IllegalArgumentException {
+        if (codeQuality == null) {
+            throw new IllegalArgumentException("Code quality must not be null.");
+        }
         final int change;
 
-        if ("good".equals(codeQuality)) {
-            change = 10;
-        } else if ("excellent".equals(codeQuality)) {
-            change = 75;
-        } else if ("fantastic".equals(codeQuality)) {
-            change = 100;
-        } else if ("bad".equals(codeQuality)) {
-            change = -10;
-        } else {
-            throw new IllegalArgumentException("Unknown code quality.");
+        switch (codeQuality) {
+            case GOOD:
+                change = 10;
+                break;
+            case EXCELLENT:
+                change = 75;
+                break;
+            case FANTASTIC:
+                change = 100;
+                break;
+            case BAD:
+                change = -10;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown code quality: " + codeQuality);
         }
 
         if (change > 0) {

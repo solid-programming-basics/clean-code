@@ -12,13 +12,13 @@ public class SolidPointsApplication {
             alice.earnPoints(20);
             viewer.viewPoints(alice);
 
-            reviewer.reviewCode(alice, "excellent"); 
+            reviewer.reviewCode(alice, CodeQuality.EXCELLENT);
             System.out.println("Alice's points after review: ");
             viewer.viewPoints(alice);
 
             viewer.viewPoints(alice);
 
-            reviewer.reviewCode(alice, "bad"); 
+            reviewer.reviewCode(alice, CodeQuality.BAD);
             System.out.println("Alice's points after bad review: ");
             viewer.viewPoints(alice);
 

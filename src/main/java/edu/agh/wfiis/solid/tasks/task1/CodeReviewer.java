@@ -5,12 +5,14 @@ public class CodeReviewer extends SolidPoints {
         super(name);
     }
 
+    // UnsupportedOperationException łamie LSP: ktoś woła publiczną metodę z kontraktu i dostaje wyjątek na twarz
+    // świadczy też o złym ISP - interfejs zbyt ogólny (jak List vs kolekcje immutable w Javie; powinien być podział na odczyt i zapis)
     @Override
     public void earnPoints(int points) {
         throw new UnsupportedOperationException("Earning points is not supported for CodeReviewers.");
     }
 
-    public void reviewCode(User user, String codeQuality) {
+    public void reviewCode(User user, String codeQuality) { // String zamiast enuma na ocenę - proszenie się o kłopoty
         // wszystkie usunięte komentarze do tej pory były po prostu niepotrzebne, natomiast tutaj są po prostu mylące, co to znaczy "Attempting"?
         // przecież to się zawsze uda, bo nie ma żadnego checka czemu by się miało nie udać, bo Java nie próbuje nawet robić implicit setterów
         if (codeQuality.equals("good")) {

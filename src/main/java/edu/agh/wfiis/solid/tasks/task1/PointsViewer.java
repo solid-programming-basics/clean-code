@@ -1,15 +1,19 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
-public class PointsViewer extends SolidPoints {
+public final class PointsViewer {
+
+    private String name;
+
     public PointsViewer(String name) {
-        super(name);
+        this.name = name;
     }
 
-    @Override
-    public void earnPoints(int points) {
+    public String getName() {
+        return name;
     }
 
     public void viewPoints(User user) {
-        System.out.println(user.name + " has " + getTotalPoints() + " points.");
+        System.out.println(name + " views: " + user.getName()
+                + " has " + user.getSolidPoints() + " points.");
     }
 }

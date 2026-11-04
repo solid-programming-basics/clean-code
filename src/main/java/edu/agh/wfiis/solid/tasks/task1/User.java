@@ -1,54 +1,45 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
-public class User {
-    protected int solidPoints;
-    protected String name;
+final class User {
 
-    public User(String name) {
-        this.name = name; // Assign the user's name to the name variable
-        this.solidPoints = 0; // Initialize points to zero
+    private static final int MAX_POINTS_PER_EARNING = 100;
+
+    private final String name;
+    private int solidPoints;
+
+    User(String name) {
+        this.name = name;
     }
 
-    public void earnPoints(int points) {
-        try {
-            // Additional condition: Check if points are within a valid range
-            if (points > 0 && points < 100) { // Assuming the max points that can be earned at once is 100
-                this.solidPoints += points; // Add points to the user's total points
-            } else {
-                throw new IllegalArgumentException("Points must be positive and no more than 100.");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("General error occurred while earning points.");
+    void earnPoints(int points) {
+        if (!isValidEarning(points)) {
+            throw new IllegalArgumentException(
+                    "Points must be positive and less than " + MAX_POINTS_PER_EARNING + ".");
         }
+        solidPoints += points;
     }
 
-
-    public void subtractPoints(int points) {
-        try {
-            if (points > 0 && points <= this.solidPoints) {
-                this.solidPoints -= points; // Subtract points from the user's total points
-            } else {
-                throw new IllegalArgumentException("Invalid points.");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("General error occurred while subtracting points.");
-        }
+    void applyReviewResult(int pointsChange) {
+        solidPoints += pointsChange;
     }
 
-    public int getTotalPoints() {
-        return this.solidPoints; // Return the user's total points
+    int getTotalPoints() {
+        return solidPoints;
     }
 
-    public void displayPoints() {
-        // This method prints the user's points
-        System.out.println("Total SOLID points: " + this.solidPoints);
+    String getName() {
+        return name;
     }
 
-    public void resetPoints() {
-        this.solidPoints = 0; // Reset the user's points to zero
+    String pointsSummary() {
+        return name + "'s points: " + solidPoints;
+    }
+
+    String pointsSummaryAfter(String event) {
+        return name + "'s points after " + event + ": " + solidPoints;
+    }
+
+    private static boolean isValidEarning(int points) {
+        return points > 0 && points < MAX_POINTS_PER_EARNING;
     }
 }

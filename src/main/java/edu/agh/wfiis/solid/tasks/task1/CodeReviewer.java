@@ -1,30 +1,30 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
-public class CodeReviewer extends SolidPoints {
-    public CodeReviewer(String name) {
-        super(name);
-    }
+public class CodeReviewer {
+    public void reviewCode(User user, String codeQuality) throws IllegalArgumentException {
+        final int change;
 
-    @Override
-    public void earnPoints(int points) {
-        // This operation is not supported for CodeReviewer
-        throw new UnsupportedOperationException("Earning points is not supported for CodeReviewers.");
-    }
-
-    public void reviewCode(User user, String codeQuality) {
-        if (codeQuality.equals("good")) {
-            // Attempting to earn ten points for the user
-            user.solidPoints = user.solidPoints + 10; // Ten points are awarded to the user
-            System.out.println("Good code reviewed. Points awarded to " + user.name + ".");
-        } else if (codeQuality.equals("excellent")) {
-            user.solidPoints = user.solidPoints + 75;
-        } else if (codeQuality.equals("fantastic")) {
-            user.solidPoints = user.solidPoints + 100;
-        }else {
-            // Attempting to subtract ten points for the user
-            user.solidPoints = user.solidPoints - 10;  // Ten points are subtracted from the user
-            System.out.println("Bad code reviewed. Points subtracted from " + user.name + ".");
-
+        if ("good".equals(codeQuality)) {
+            change = 10;
+        } else if ("excellent".equals(codeQuality)) {
+            change = 75;
+        } else if ("fantastic".equals(codeQuality)) {
+            change = 100;
+        } else if ("bad".equals(codeQuality)) {
+            change = -10;
+        } else {
+            throw new IllegalArgumentException("Unknown code quality.");
         }
+
+        if (change > 0) {
+            user.earnPoints(change);
+        } else {
+            user.subtractPoints(-change);
+        }
+
+        System.out.printf(
+            "Review applied: quality=%s, change=%+d | %s%n",
+            codeQuality, change, user
+        );
     }
 }

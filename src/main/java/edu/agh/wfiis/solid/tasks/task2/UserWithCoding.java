@@ -25,12 +25,12 @@ class UserWithCoding {
         System.out.println(info + " - New points total: " + points);
     }
 
-    static String compare_user_points(UserWithCoding user1, UserWithCoding user2) {
-        if (user1 == null || user2 == null) {
-            throw new NullPointerException("One or more users is null");
+    String compare_user_points(UserWithCoding user1) {
+        if (user1 == null) {
+            throw new NullPointerException("Input user is null");
         }
 
-        System.out.println("Comparing " + user1.id + " with " + user2.id);
-        return user1.points > user2.points ? user1.id : user2.id;
+        System.out.println("Comparing " + this.id + " with " + user1.id);
+        return this.points > user1.points ? user1.id : this.id;
     }
 }

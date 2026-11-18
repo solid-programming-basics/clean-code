@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Manager {
+    // Make this a map?
     List<Review> reviews;
     List<UserWithCoding> users_with_coding;
 
@@ -34,9 +35,9 @@ class Manager {
         }
     }
 
-    Review create_review(UserWithCoding revieved_person, List<String> comments, String reviever_name) {
+    Review begin_review_for_user(UserWithCoding revieved_person, List<String> comments, String reviever_name) {
         if (comments == null || comments.isEmpty()) {
-            throw new NullPointerException("No comments have been provided");
+            throw new IllegalArgumentException("No comments have been provided");
         }
 
         String review_data = "Review for user " + revieved_person.id + ", created at " + Instant.now() + " by " + reviever_name;
@@ -72,10 +73,10 @@ class Manager {
 
         Review rev;
         rev = reviews.get(idx);
-        rev.add_review_data(comments, true);
+        rev.add_review_data_safe(comments, true);
     }
 
-    void process_review_for_user(String user_id, int review_id, int score, String feedback_data) {
+    void finish_review_for_user(String user_id, int review_id, int score, String feedback_data) {
         UserWithCoding processed_user = null;
         Review review = null;
 
@@ -107,7 +108,7 @@ class Manager {
             return;
         }
 
-        review.add_review_data(null, false);
+        review.add_review_data_safe(null, false);
         processed_user.add_points(score, feedback_data);
         System.out.println("Review completed for " + user_id + ". Points awarded: " + score);
     }

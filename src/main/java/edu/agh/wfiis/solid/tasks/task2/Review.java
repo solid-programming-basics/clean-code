@@ -15,7 +15,7 @@ class Review {
         this.comments = comments;
     }
 
-    void add_review_data(List<String> list, boolean update_only) {
+    void add_review_data_safe(List<String> list, boolean update_only) {
         if (!update_only && is_processed) {
             throw new IllegalArgumentException("Review with ID " + rev_id + " has already been processed. Cannot process again.");
         }
@@ -25,6 +25,10 @@ class Review {
             return;
         }
 
+        add_review_data(list, update_only);
+    }
+
+    void add_review_data(List<String> list, boolean update_only) {
         for (String rev_data : list) {
             System.out.println("Comment: " + rev_data);
             if (rev_data.length() > 100) {

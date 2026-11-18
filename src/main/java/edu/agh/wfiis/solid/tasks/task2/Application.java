@@ -24,18 +24,19 @@ class Application {
         comments.add("Good naming");
         comments.add("Readable code");
 
-        Review review1 = manage.create_review(user_1, comments, "Bobby");
-        manage.process_review_for_user(user_1.id, review1.rev_id, 10, "Great job, keep it up!");
+        Review review1 = manage.begin_review_for_user(user_1, comments, "Bobby");
+        manage.finish_review_for_user(user_1.id, review1.rev_id, 10, "Great job, keep it up!");
         comments.clear();
 
         comments.add("LSP violated");
         comments.add("Good naming");
-        Review review2 = manage.create_review(user_2, comments, "Bob");
+        Review review2 = manage.begin_review_for_user(user_2, comments, "Bob");
         manage.add_comment_to_review(user_2, new ArrayList<>(){{this.add("I forgot that ISP violation should be fixed too");}});
-        manage.process_review_for_user(user_2.id, review2.rev_id, 1, "Need some improvement!");
+        manage.finish_review_for_user(user_2.id, review2.rev_id, 1, "Need some improvement!");
         comments.clear();
 
-        String betterUser = UserWithCoding.compare_user_points(user_1, user_2);
+        // Make a method relating instance, not static
+        String betterUser = user_1.compare_user_points(user_2);
         System.out.println("User with more points: " + betterUser);
     }
 }

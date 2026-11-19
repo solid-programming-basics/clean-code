@@ -5,7 +5,7 @@ import java.util.List;
 
 class Application {
     public static void main(String[] args) {
-        Manager manage = new Manager();
+        UserReviews manage = new UserReviews();
         UserWithCoding user1 = new UserWithCoding("JohnDoe", "john.doe@example.com", "password123", 100, true);
         UserWithCoding user2 = new UserWithCoding("jane", "jane.smith@example.com", "pass", 50, false);
 

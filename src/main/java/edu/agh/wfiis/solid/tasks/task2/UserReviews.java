@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class Manager {
+class UserReviews {
     private int count = 0;
     Map<UserWithCoding, Review> user_reviews;
 
-    Manager() {
+    UserReviews() {
         this.user_reviews = new HashMap<>();
     }
 

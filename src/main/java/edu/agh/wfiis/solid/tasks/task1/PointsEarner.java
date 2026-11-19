@@ -13,49 +13,43 @@ public class PointsEarner extends User {
         return solidPoints;
     }
 
-    protected void earnPointsValidator(int points) {
-        if (points <= 0 || points > this.solidPoints) {
-            throw new IllegalArgumentException("Points must be positive.");
+    protected void pointsValidator(int points) {
+        if (points <= 0) {
+            throw new IllegalArgumentException("Points must be positive and more than 0.");
         }
     }
 
-    protected void subPointsValidator(int points) {
-        if (points >= 0 || points > this.solidPoints) {
-            throw new IllegalArgumentException("Points must be positive.");
+    private void fixPointsOutOfRange() {
+        if (this.getTotalPoints() < 0) {
+            System.out.println("Earner's points exceeded lower limit. Reverting to 0.");
+            this.resetPoints();
+        } else if (this.getTotalPoints() > 100) {
+            System.out.println("Earner's points exceeded upper limit. Reverting to 100.");
+            this.setPointsToMax();
         }
     }
 
     public void earnPoints(int points) {
-        try {
-            earnPointsValidator(points);
-            this.solidPoints += points;
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        pointsValidator(points);
+        this.solidPoints += points;
+        this.fixPointsOutOfRange();
     }
 
     public void subtractPoints(int points) {
-        try {
-            subPointsValidator(points);
-            this.solidPoints -= points;
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("General error occurred while subtracting points.");
-        }
+        pointsValidator(points);
+        this.solidPoints -= points;
+        this.fixPointsOutOfRange();
     }
 
     public int getTotalPoints() {
         return this.solidPoints;
     }
 
+    private void resetPoints() {
+        this.solidPoints = 0;
+    }
 
-    // Unused methods (I'm keeping them beceuse they might be usefu later :-))
-    // public void displayPoints() {
-    //     System.out.println("Total SOLID points: " + this.solidPoints);
-    // }
-
-    // public void resetPoints() {
-    //     this.solidPoints = 0;
-    // }
+    private void setPointsToMax() {
+        this.solidPoints = 100;
+    }
 }

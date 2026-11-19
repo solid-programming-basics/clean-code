@@ -5,12 +5,6 @@ public class CodeReviewer extends User {
         super(name);
     }
 
-    @Override
-    public void earnPoints(int points) {
-        // This operation is not supported for CodeReviewer
-        throw new UnsupportedOperationException("Earning points is not supported for CodeReviewers.");
-    }
-
     public void reviewCode(PointsEarner user, String codeQuality) {
         if (codeQuality.equals("good")) {
             user.earnPoints(10);

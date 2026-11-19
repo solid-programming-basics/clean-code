@@ -5,10 +5,6 @@ public class PointsViewer extends User {
         super(name);
     }
 
-    @Override
-    public void earnPoints(int points) {
-    }
-
     public void viewPoints(PointsEarner earner) {
         System.out.println(earner.getName() + " has " + earner.getTotalPoints() + " points.");
     }

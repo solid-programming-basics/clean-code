@@ -15,31 +15,32 @@ class Review {
         this.comments = comments;
     }
 
-    void add_review_data_safe(List<String> list, boolean update_only) {
+    private void validateAddReviewData(boolean update_only) {
         if (!update_only && is_processed) {
             throw new IllegalArgumentException("Review with ID " + rev_id + " has already been processed. Cannot process again.");
         }
+    }
+
+    void addReviewData(List<String> comments_list, boolean update_only) {
+        validateAddReviewData(update_only);
+
         if (!update_only) {
             is_processed = true;
             System.out.println("Review with ID " + rev_id + " has been processed.");
             return;
         }
 
-        add_review_data(list, update_only);
-    }
-
-    void add_review_data(List<String> list, boolean update_only) {
-        for (String rev_data : list) {
+        for (String rev_data : comments_list) {
             System.out.println("Comment: " + rev_data);
             if (rev_data.length() > 100) {
                 System.out.println("Too long!");
             } else {
-                comments.add(rev_data);
+                comments_list.add(rev_data);
             }
         }
     }
 
-    Boolean is_finished() {
+    Boolean isFinished() {
         return is_processed ? true : false;
     }
 }

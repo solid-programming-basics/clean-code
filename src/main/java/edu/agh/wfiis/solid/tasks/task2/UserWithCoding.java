@@ -15,7 +15,7 @@ class UserWithCoding {
         this.is_account_active = is_account_active;
     }
 
-    void add_points(int points, String info) {
+    void addPoints(int points, String info) {
         if (info == null || info.isEmpty()) {
             System.out.println("No additional information provided. Points not updated.");
             return;
@@ -25,12 +25,33 @@ class UserWithCoding {
         System.out.println(info + " - New points total: " + points);
     }
 
-    String compare_user_points(UserWithCoding user1) {
+    String compareUserPoints(UserWithCoding user1) {
         if (user1 == null) {
             throw new NullPointerException("Input user is null");
         }
 
         System.out.println("Comparing " + this.id + " with " + user1.id);
         return this.points > user1.points ? user1.id : this.id;
+    }
+
+    void validateUser(StringBuilder err) {
+        if (this.id.isEmpty()) {
+            err.append("User key cannot be empty.\n");
+        }
+        if (!this.email_address.contains("@")) {
+            err.append("Client email is invalid.\n");
+        }
+        if (this.password.length() < 6) {
+            err.append("Password must be at least 6 characters long.\n");
+        }
+        if (!this.is_account_active) {
+            err.append("Customer is currently inactive.\n");
+        }
+        for (char c : this.password.toCharArray()) {
+            if (c=='*') {
+                err.append("Password contains an invalid character: *\n");
+                break;
+            }
+        }
     }
 }

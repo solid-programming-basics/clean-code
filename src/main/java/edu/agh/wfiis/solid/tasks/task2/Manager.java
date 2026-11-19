@@ -1,115 +1,89 @@
 package edu.agh.wfiis.solid.tasks.task2;
 
 import java.time.Instant;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class Manager {
-    // Make this a map?
-    List<Review> reviews;
-    List<UserWithCoding> users_with_coding;
+    private int count = 0;
+    Map<UserWithCoding, Review> user_reviews;
 
     Manager() {
-        this.reviews = new ArrayList<>();
-        this.users_with_coding = new ArrayList<>();
+        this.user_reviews = new HashMap<>();
     }
 
-    void handle_user_validation(UserWithCoding account, StringBuilder err) {
-        if (account.id.isEmpty()) {
-            err.append("User key cannot be empty.\n");
-        }
-        if (!account.email_address.contains("@")) {
-            err.append("Client email is invalid.\n");
-        }
-        if (account.password.length() < 6) {
-            err.append("Password must be at least 6 characters long.\n");
-        }
-        if (!account.is_account_active) {
-            err.append("Customer is currently inactive.\n");
-        }
-        for (char c : account.password.toCharArray()) {
-            if (c=='*') {
-                err.append("Password contains an invalid character: *\n");
-                break;
-            }
-        }
-    }
-
-    Review begin_review_for_user(UserWithCoding revieved_person, List<String> comments, String reviever_name) {
+    private void validateBeginReviewForUser(List<String> comments) {
         if (comments == null || comments.isEmpty()) {
             throw new IllegalArgumentException("No comments have been provided");
         }
+    }
+
+    Review beginReviewForUser(UserWithCoding revieved_person, List<String> comments, String reviever_name) {
+        validateBeginReviewForUser(comments);
 
         String review_data = "Review for user " + revieved_person.id + ", created at " + Instant.now() + " by " + reviever_name;
         Review rev = new Review(
-            reviews.size() + 1,
+            this.count,
             false,
             review_data,
             comments);
+        this.count++;
 
-        reviews.add(rev);
-        users_with_coding.add(revieved_person);
+        user_reviews.put(revieved_person, rev);
 
         return rev;
     }
 
-    void add_comment_to_review(UserWithCoding person, List<String> comments) {
+    private void validateAddCommentToReview(UserWithCoding person, List<String> comments) {
         if (comments == null || comments.isEmpty()) {
-            return;
+            throw new IllegalArgumentException("No comments have been provided.");
         }
-
-        int idx = -100;
-        for (int i = 0; i < users_with_coding.size(); i++) {
-            if (users_with_coding.get(i).id.equals(person.id)) {
-                idx = i;
-                break;
-            }
+        if (!this.user_reviews.containsKey(person)) {
+            throw new IllegalArgumentException("Person does not exist in revieved users list.");
         }
-
-        if (idx == -100) {
-            System.out.println("Cannot update");
-            return;
-        }
-
-        Review rev;
-        rev = reviews.get(idx);
-        rev.add_review_data_safe(comments, true);
     }
 
-    void finish_review_for_user(String user_id, int review_id, int score, String feedback_data) {
-        UserWithCoding processed_user = null;
+    void addCommentToReview(UserWithCoding person, List<String> comments) {
+        validateAddCommentToReview(person, comments);
+        this.user_reviews.get(person).addReviewData(comments, true);
+    }
+
+    private boolean doesUserExistWithReviev(String user_id, int review_id) {
+        for (UserWithCoding key : this.user_reviews.keySet()) {
+            if (key.id == user_id) {
+                if (review_id == this.user_reviews.get(key).rev_id) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void validateFinishReviewForUser(String user_id, int review_id) {
+        if (!doesUserExistWithReviev(user_id, review_id)) {
+            throw new IllegalArgumentException("User with ID " + user_id + " does not exist with review ID " + review_id);
+        }
+    }
+
+    void finishReviewForUser(String user_id, int review_id, int score, String feedback_data) {
+        validateFinishReviewForUser(user_id, review_id);
+
         Review review = null;
+        UserWithCoding processed_user = null;
 
-        // Check if review is in reviews
-        for (Review rev : reviews) {
-            if (rev.rev_id == review_id) {
-                review = rev;
-                break;
+        for (UserWithCoding key : this.user_reviews.keySet()) {
+            if (key.id == user_id) {
+                Review curr_rev = this.user_reviews.get(key);
+                if (review_id == curr_rev.rev_id) {
+                    processed_user = key;
+                    review = curr_rev;
+                }
             }
         }
-        if (review == null) {
-            System.out.println("Review not found with ID: " + review_id);
-            return;
-        }
-        if (review.is_finished()) {
-            System.out.println("Review has already been processed. No points will be awarded.");
-            return;
-        }
 
-        // Check if user_id is in users_with_coding
-        for (UserWithCoding user : users_with_coding) {
-            if (user.id.equals(user_id)) {
-                processed_user = user;
-                break;
-            }
-        }
-        if (processed_user == null) {
-            System.out.println("User not found with handle: " + user_id);
-            return;
-        }
-
-        review.add_review_data_safe(null, false);
-        processed_user.add_points(score, feedback_data);
+        review.addReviewData(null, false);
+        processed_user.addPoints(score, feedback_data);
         System.out.println("Review completed for " + user_id + ". Points awarded: " + score);
     }
 }

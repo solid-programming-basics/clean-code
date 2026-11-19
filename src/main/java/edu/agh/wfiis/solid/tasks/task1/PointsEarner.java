@@ -11,17 +11,24 @@ public class PointsEarner extends User {
     }
 
     public void earnPoints(int points) {
-        System.out.println(this.getName() + "'s points: " + getSolidPoints());
-        super.earnPointsValidator(points);
         super.earnPoints(points);
     }
 
     public void subtractPoints(int points) {
-        super.subPointsValidator(points);
         super.subtractPoints(points);
     }
 
     public int getTotalPoints() {
         return this.solidPoints;
     }
+
+
+    // Unused methods (I'm keeping them beceuse they might be usefu later :-))
+    // public void displayPoints() {
+    //     System.out.println("Total SOLID points: " + this.solidPoints);
+    // }
+
+    // public void resetPoints() {
+    //     this.solidPoints = 0;
+    // }
 }

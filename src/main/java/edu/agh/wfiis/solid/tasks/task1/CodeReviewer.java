@@ -13,18 +13,17 @@ public class CodeReviewer extends User {
 
     public void reviewCode(PointsEarner user, String codeQuality) {
         if (codeQuality.equals("good")) {
-            // Attempting to earn ten points for the user
-            user.solidPoints = user.getSolidPoints() + 10; // Ten points are awarded to the user
+            user.earnPoints(10);
             System.out.println("Good code reviewed. Points awarded to " + user.getName() + ".");
         } else if (codeQuality.equals("excellent")) {
-            user.solidPoints = user.getSolidPoints() + 75;
+            user.earnPoints(75);
+            System.out.println("Excellent code reviewed. Points awarded to " + user.getName() + ".");
         } else if (codeQuality.equals("fantastic")) {
-            user.solidPoints = user.getSolidPoints() + 100;
+            user.earnPoints(100);
+            System.out.println("Fantastic code reviewed. Points awarded to " + user.getName() + ".");
         }else {
-            // Attempting to subtract ten points for the user
-            user.solidPoints = user.getSolidPoints() - 10;  // Ten points are subtracted from the user
+            user.subtractPoints(10);
             System.out.println("Bad code reviewed. Points subtracted from " + user.getName() + ".");
-
         }
     }
 }

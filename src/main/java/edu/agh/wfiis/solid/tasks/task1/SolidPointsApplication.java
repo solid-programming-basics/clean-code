@@ -8,7 +8,9 @@ public class SolidPointsApplication {
 
         try {
             earner1.earnPoints(10);
+            System.out.println(earner1.getName() + "'s points: " + earner1.getSolidPoints());
             earner1.earnPoints(20);
+            System.out.println(earner1.getName() + "'s points: " + earner1.getSolidPoints());
 
             reviewer1.reviewCode(earner1, "excellent");
             System.out.println("Alice's points after review: " + earner1.getSolidPoints());

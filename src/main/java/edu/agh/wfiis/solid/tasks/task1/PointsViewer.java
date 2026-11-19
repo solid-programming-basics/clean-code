@@ -1,6 +1,6 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
-public class PointsViewer extends PointsEarner {
+public class PointsViewer extends User {
     public PointsViewer(String name) {
         super(name);
     }
@@ -9,7 +9,7 @@ public class PointsViewer extends PointsEarner {
     public void earnPoints(int points) {
     }
 
-    public void viewPoints(User user) {
-        System.out.println(user.name + " has " + getTotalPoints() + " points.");
+    public void viewPoints(PointsEarner earner) {
+        System.out.println(earner.getName() + " has " + earner.getTotalPoints() + " points.");
     }
 }

@@ -2,7 +2,6 @@ package edu.agh.wfiis.solid.tasks.task1;
 
 
 public class PointsEarner extends User {
-
     public PointsEarner(String name) {
         super(name);
     }
@@ -20,5 +19,9 @@ public class PointsEarner extends User {
     public void subtractPoints(int points) {
         super.subPointsValidator(points);
         super.subtractPoints(points);
+    }
+
+    public int getTotalPoints() {
+        return this.solidPoints;
     }
 }

@@ -41,6 +41,14 @@ public class PointsEarner extends User {
         this.fixPointsOutOfRange();
     }
 
+    public void earnAnyPoints(int points) {
+        if (points > 0) {
+            this.earnPoints(points);
+        } else {
+            this.subtractPoints(Math.abs(points));
+        }
+    }
+
     public int getTotalPoints() {
         return this.solidPoints;
     }

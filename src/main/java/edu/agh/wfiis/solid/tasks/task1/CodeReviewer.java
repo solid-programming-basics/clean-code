@@ -13,19 +13,21 @@ public class CodeReviewer extends User {
         super(name);
     }
 
-    public void reviewCode(PointsEarner user, CodeQuality codeQuality) {
+    public int reviewCode(PointsEarner user, CodeQuality codeQuality) {
         if (codeQuality.equals(CodeQuality.GOOD)) {
-            user.earnPoints(10);
             System.out.println("Good code reviewed. Points awarded to " + user.getName() + ".");
+            return 10;
         } else if (codeQuality.equals(CodeQuality.EXCELLENT)) {
-            user.earnPoints(75);
             System.out.println("Excellent code reviewed. Points awarded to " + user.getName() + ".");
+            return 75;
         } else if (codeQuality.equals(CodeQuality.FANTASTIC)) {
-            user.earnPoints(100);
             System.out.println("Fantastic code reviewed. Points awarded to " + user.getName() + ".");
+            return 100;
         } else if (codeQuality.equals(CodeQuality.ABHORRENT)) {
-            user.subtractPoints(10);
             System.out.println("Bad code reviewed. Points subtracted from " + user.getName() + ".");
+            return -10;
+        } else {
+            throw new Error("I'm not a java person, linter is angry with me if I don't explicitly prepare it for behaviour that will never occur.");
         }
     }
 }

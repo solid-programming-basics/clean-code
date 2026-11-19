@@ -1,6 +1,6 @@
 package edu.agh.wfiis.solid.tasks.task1;
 
-public class CodeReviewer extends SolidPoints {
+public class CodeReviewer extends PointsEarner {
     public CodeReviewer(String name) {
         super(name);
     }

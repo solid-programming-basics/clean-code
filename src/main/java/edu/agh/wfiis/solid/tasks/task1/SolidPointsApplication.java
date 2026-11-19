@@ -2,27 +2,25 @@ package edu.agh.wfiis.solid.tasks.task1;
 
 public class SolidPointsApplication {
     public static void main(String[] args) {
-        SolidPoints alice = new SolidPoints("Alice");
-        CodeReviewer bob = new CodeReviewer("Bob");
-        PointsViewer charlie = new PointsViewer("Charlie");
+        PointsEarner earner1 = new PointsEarner("Alice");
+        CodeReviewer reviewer1 = new CodeReviewer("Bob");
+        PointsViewer viewer1 = new PointsViewer("Charlie");
 
         // Adding points directly for Alice
         try {
-            alice.earnPoints(10);
-            System.out.println("Alice's points: " + alice.getSolidPoints());
-            alice.earnPoints(20);
-            System.out.println("Alice's points: " + alice.getSolidPoints());
+            earner1.earnPoints(10);
+            earner1.earnPoints(20);
 
             // Reviewer Bob reviews code and adds points for Alice
-            bob.reviewCode(alice, "excellent"); // Excellent code reviewed
-            System.out.println("Alice's points after review: " + alice.getSolidPoints());
+            reviewer1.reviewCode(earner1, "excellent");
+            System.out.println("Alice's points after review: " + earner1.getSolidPoints());
 
             // Viewer Charlie views Alice's points
-            charlie.viewPoints(alice);
+            viewer1.viewPoints(earner1);
 
             // Subtract points for bad review
-            bob.reviewCode(alice, "bad"); // Bad code reviewed
-            System.out.println("Alice's points after bad review: " + alice.getSolidPoints());
+            reviewer1.reviewCode(earner1, "bad");
+            System.out.println("Alice's points after bad review: " + earner1.getSolidPoints());
 
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());

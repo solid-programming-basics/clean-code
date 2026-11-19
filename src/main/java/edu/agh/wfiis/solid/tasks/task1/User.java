@@ -5,33 +5,36 @@ public class User {
     protected String name;
 
     public User(String name) {
-        this.name = name; // Assign the user's name to the name variable
-        this.solidPoints = 0; // Initialize points to zero
+        this.name = name;
+        this.solidPoints = 0;
+    }
+
+    protected void earnPointsValidator(int points) {
+        if (points <= 0 || points > this.solidPoints) {
+            throw new IllegalArgumentException("Points must be positive.");
+        }
+    }
+
+    protected void subPointsValidator(int points) {
+        if (points >= 0 || points > this.solidPoints) {
+            throw new IllegalArgumentException("Points must be positive.");
+        }
     }
 
     public void earnPoints(int points) {
         try {
-            // Additional condition: Check if points are within a valid range
-            if (points > 0 && points < 100) { // Assuming the max points that can be earned at once is 100
-                this.solidPoints += points; // Add points to the user's total points
-            } else {
-                throw new IllegalArgumentException("Points must be positive and no more than 100.");
-            }
+            earnPointsValidator(points);
+            this.solidPoints += points;
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("General error occurred while earning points.");
         }
     }
 
 
     public void subtractPoints(int points) {
         try {
-            if (points > 0 && points <= this.solidPoints) {
-                this.solidPoints -= points; // Subtract points from the user's total points
-            } else {
-                throw new IllegalArgumentException("Invalid points.");
-            }
+            subPointsValidator(points);
+            this.solidPoints -= points;
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (Exception e) {
@@ -40,15 +43,19 @@ public class User {
     }
 
     public int getTotalPoints() {
-        return this.solidPoints; // Return the user's total points
+        return this.solidPoints;
     }
 
-    public void displayPoints() {
-        // This method prints the user's points
-        System.out.println("Total SOLID points: " + this.solidPoints);
+    public String getName() {
+        return this.name;
     }
 
-    public void resetPoints() {
-        this.solidPoints = 0; // Reset the user's points to zero
-    }
+    // Unused methods (I'm keeping them beceuse they might be usefu later :-))
+    // public void displayPoints() {
+    //     System.out.println("Total SOLID points: " + this.solidPoints);
+    // }
+
+    // public void resetPoints() {
+    //     this.solidPoints = 0;
+    // }
 }
